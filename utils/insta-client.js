@@ -4,7 +4,7 @@ class InstagramClient {
   async start() {
     this.browser = await puppeteer.launch({
       headless: true,
-      args: ['--no-sandbox', '--disable-setuid-sandbox'],
+      args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage', '--single-process'],
     });
   }
 
@@ -29,8 +29,6 @@ class InstagramClient {
     await page.waitForSelector('h1');
 
     const followers = await page.evaluate((username) => {
-      //This code will get executed on the instagram page
-
       //Get the number of followers
       const followers = document
         .querySelector(`a[href="/accounts/login/?next=%2F${username}%2Ffollowers%2F&source=followed_by_list"]`)
@@ -51,16 +49,14 @@ class InstagramClient {
     await page.setUserAgent(
       'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.181 Safari/537.36'
     );
-    page.on('console', (consoleObj) => console.log(consoleObj.text()));
 
     await page.goto(url);
 
-    // Wait until the page got completly renderer
     await page.waitForSelector('div');
+    await page.screenshot({ path: 'buddy-screenshot.png' });
 
     const link = await page.evaluate(() => {
       const link = document.querySelector("meta[property='og:video']").getAttribute('content');
-      console.log(link);
       return link;
     });
     console.log('67', link);

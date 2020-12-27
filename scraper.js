@@ -74,7 +74,6 @@ app.post('/download/video', async (req, res) => {
   } catch (e) {
     res.json({
       error: 'There is a problem with the link you have provided.',
-      e: e,
     });
   }
 });
