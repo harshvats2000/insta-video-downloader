@@ -54,6 +54,8 @@ class InstagramClient {
 
     await page.waitForSelector('div');
     // await page.screenshot({ path: 'buddy-screenshot.png' });
+    const data = await page.evaluate(() => document.querySelector('*').outerHTML);
+    console.log(data);
 
     try {
       const link = await page.evaluate(() => {
