@@ -61,6 +61,7 @@ class InstagramClient {
       const link = document.querySelector("meta[property='og:video']").getAttribute('content');
       return link;
     });
+    console.log(link);
     page.close();
     return link;
     // }, 5000);
