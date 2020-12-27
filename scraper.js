@@ -20,7 +20,7 @@ const getVideo = async (url) => {
 
 // the callback is an async function
 app.post('/api/download', async (request, response) => {
-  console.log('request coming in...');
+  console.log('request coming in...', request.body);
   try {
     // call the getVideo function, wait for videoString and store it
     // in the videoLink variable
