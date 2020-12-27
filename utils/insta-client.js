@@ -58,7 +58,6 @@ class InstagramClient {
     // Wait until the page got completly renderer
     await page.waitForSelector('div');
 
-    // setTimeout(async () => {
     const link = await page.evaluate(() => {
       const link = document.querySelector("meta[property='og:video']").getAttribute('content');
       console.log(link);
@@ -67,7 +66,6 @@ class InstagramClient {
     console.log('67', link);
     page.close();
     return link;
-    // }, 5000);
   }
 }
 
