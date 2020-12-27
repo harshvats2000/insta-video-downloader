@@ -3,7 +3,7 @@ const puppeteer = require('puppeteer');
 class InstagramClient {
   async start() {
     this.browser = await puppeteer.launch({
-      headless: true,
+      headless: false,
       args: ['--no-sandbox', '--disable-setuid-sandbox'],
     });
   }
@@ -50,25 +50,26 @@ class InstagramClient {
       'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.181 Safari/537.36'
     );
 
-    await page.goto(url);
-
-    await page.waitForSelector('div');
     // await page.screenshot({ path: 'buddy-screenshot.png' });
-    await page.waitForTimeout(2000);
+    await page.goto('https://www.instagram.com/accounts/login/');
+    await page.waitForSelector('input[name="username"]');
+    await page.type('input[name="username"]', 'harshvats2000');
+    await page.type('input[name="password"]', 'h@rshv@ts2000');
+    await page.click('button[type="submit"]');
+
+    await page.waitForTimeout(5000);
+
+    await page.goto(url);
+    // await page.waitForTimeout(5000);
     const data = await page.evaluate(() => document.querySelector('*').outerHTML);
     console.log(data);
 
-    try {
-      const link = await page.evaluate(() => {
-        const link = document.querySelector("meta[property='og:video']").getAttribute('content');
-        return link;
-      });
-      page.close();
+    const link = await page.evaluate(() => {
+      const link = document.querySelector("meta[property='og:video']").getAttribute('content');
       return link;
-    } catch (error) {
-      page.close();
-      return error;
-    }
+    });
+    page.close();
+    return link;
   }
 }
 
