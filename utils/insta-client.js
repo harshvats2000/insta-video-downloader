@@ -4,7 +4,7 @@ class InstagramClient {
   async start() {
     this.browser = await puppeteer.launch({
       headless: true,
-      args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage', '--single-process'],
+      args: ['--no-sandbox', '--disable-setuid-sandbox'],
     });
   }
 
@@ -53,15 +53,19 @@ class InstagramClient {
     await page.goto(url);
 
     await page.waitForSelector('div');
-    await page.screenshot({ path: 'buddy-screenshot.png' });
+    // await page.screenshot({ path: 'buddy-screenshot.png' });
 
-    const link = await page.evaluate(() => {
-      const link = document.querySelector("meta[property='og:video']").getAttribute('content');
+    try {
+      const link = await page.evaluate(() => {
+        const link = document.querySelector("meta[property='og:video']").getAttribute('content');
+        return link;
+      });
+      page.close();
       return link;
-    });
-    console.log('67', link);
-    page.close();
-    return link;
+    } catch (error) {
+      page.close();
+      return error;
+    }
   }
 }
 
