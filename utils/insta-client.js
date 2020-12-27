@@ -3,7 +3,7 @@ const puppeteer = require('puppeteer');
 class InstagramClient {
   async start() {
     this.browser = await puppeteer.launch({
-      headless: false,
+      headless: true,
       args: ['--no-sandbox', '--disable-setuid-sandbox'],
     });
   }
