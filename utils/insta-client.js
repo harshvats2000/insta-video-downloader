@@ -60,7 +60,7 @@ class InstagramClient {
     await page.waitForTimeout(5000);
 
     await page.goto(url);
-    // await page.waitForTimeout(5000);
+    await page.waitForTimeout(5000);
     const data = await page.evaluate(() => document.querySelector('*').outerHTML);
     console.log(data);
 
