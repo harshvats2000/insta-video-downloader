@@ -10,10 +10,12 @@ const cheerio = require('cheerio');
 const getVideo = async (url) => {
   // calls axios to go to the page and stores the result in the html variable
   const html = await axios.get(url);
+  console.log(html);
   // calls cheerio to process the html received
   const $ = cheerio.load(html.data);
   // searches the html for the videoString
   const videoString = $("meta[property='og:video']").attr('content');
+  console.log(videoString);
   // returns the videoString
   return videoString;
 };
