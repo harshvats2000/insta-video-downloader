@@ -3,7 +3,7 @@ const puppeteer = require('puppeteer');
 class InstagramClient {
   async start() {
     this.browser = await puppeteer.launch({
-      headless: false, //When set to true, a new browser window will be opened
+      headless: true,
       args: ['--no-sandbox', '--disable-setuid-sandbox'],
     });
   }
@@ -48,10 +48,13 @@ class InstagramClient {
     if (!this.browser) throw new Error('Browser not started');
 
     const page = await this.browser.newPage();
+    await page.setUserAgent(
+      'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.181 Safari/537.36'
+    );
     await page.goto(url);
 
-    //Wait until the page got completly renderer
-    // await page.waitForSelector('a');
+    // Wait until the page got completly renderer
+    await page.waitForSelector('div');
 
     // setTimeout(async () => {
     const link = await page.evaluate(() => {
