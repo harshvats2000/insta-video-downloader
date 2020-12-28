@@ -50,9 +50,10 @@ class InstagramClient {
       'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.181 Safari/537.36'
     );
 
+    console.log(url);
     await page.goto(url);
-    const data = await page.evaluate(() => document.querySelector('*').outerHTML);
-    console.log(data);
+    // const html = await page.evaluate(() => document.querySelector('*').outerHTML);
+    // console.log(html);
 
     const link = await page.evaluate(() => {
       const link = document.querySelector("meta[property='og:video']").getAttribute('content');
